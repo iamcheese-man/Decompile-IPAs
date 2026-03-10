@@ -1,6 +1,7 @@
 name: Auto Decompile IPA
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'ipa/*.ipa'
