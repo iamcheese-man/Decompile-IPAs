@@ -1,0 +1,31 @@
+name: Auto Decompile IPA
+
+on:
+  push:
+    paths:
+      - 'ipa/*.ipa'
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y unzip binutils libplist-utils
+
+    - name: Make decompile script executable
+      run: chmod +x scripts/decompile.sh
+
+    - name: Run decompiler
+      run: ./scripts/decompile.sh ipa/*.ipa
+
+    - name: Upload results
+      uses: actions/upload-artifact@v4
+      with:
+        name: decompile-results
+        path: work
